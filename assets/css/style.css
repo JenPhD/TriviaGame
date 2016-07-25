@@ -1,0 +1,40 @@
+
+body {
+	background-color: #001;
+	background-image: url("../images/watercolor.jpg");
+	background-repeat: no-repeat;
+	background-size: 100%;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+.container {
+
+}
+
+h1 {
+	color: #0000e6; 
+	font-family: 'Lobster', serif;
+	font-size: 60px; 
+	font-weight: normal;
+	margin-left: 20px;
+	margin-top: 40px; 
+	text-align: center; 
+}
+
+#game #starttimer {
+	background-color: #e6ffff;
+	font-size: 40px;
+	font-color: #001;
+	text-align: center;
+}
+
+.footer {
+	background-color: #ff00bf;
+	border-top: solid;
+	border-color: #00e6e6;
+	color: white;
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+  	text-align: center;
+}
