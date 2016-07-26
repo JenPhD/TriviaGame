@@ -21,11 +21,23 @@ h1 {
 	text-align: center; 
 }
 
-#game #starttimer {
+#game #timer {
 	background-color: #e6ffff;
 	font-size: 40px;
 	font-color: #001;
 	text-align: center;
+}
+
+#start {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+
+}
+.btn {
+	align-items: center;
+	background-color: #e6ffff;
+
 }
 
 .footer {
