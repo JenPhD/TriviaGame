@@ -15,7 +15,12 @@ $(document).ready(function () {
 			currentQuestion: false
 		}
 
-	]
+	];
+
+	index = 0;
+	numCorrect = 0;
+	numIncorrect = 0;
+	unanswered = 0;
 	
 	//Show the start button on page load or reload;
 	window.onload = function () {
@@ -24,6 +29,7 @@ $(document).ready(function () {
 
 	//reset game stats;
 	function stats () {
+		var index = 0;
 		var numCorrect = 0;
 		var numIncorrect = 0;
 		var unanswered = 0;
@@ -53,22 +59,15 @@ $(document).ready(function () {
 				$('#questions').append($newQuiz);			
 			} 
 			$('.current').on('click', function() {
-				firstQuestion(this.getAttribute('quest-id'))
+				beginQuiz(this.getAttribute('quest-id'))
 			})
 		}	
 	}
-	
-	//Not sure how to go back to the for loop after an answer has been clicked;
-		//$('#answers').on('click', function() {
-			//beginQuestions(this.getAttribute('quest-id'))
-			//});
-			
-		//}
 
-		function showQuestion (index) {
+		function showQuestion () {
 			var $newQuestion = $('<div>')
 				.addClass('question col-sm-12')
-				.html(questions[0].quest);
+				.html(questions[index].quest);
 			$('#questions').html($newQuestion);
 
 		}
@@ -76,19 +75,30 @@ $(document).ready(function () {
 		//Add answers
 
 	
-		function showAnswers (index) {
-			for (i = 0; i < questions[0].answers.length; i++) {
+		function showAnswers () {
+			for (j = 0; j < questions[index].answers.length; j++) {
 			var $newAnswers = $('<div/>')
 				.addClass('answer col-sm-12')
-				.attr('answer-id', i)
-				.html('<span>' + questions[0].answers[i] + '</span>');
+				.attr('answer-id', j)
+				.html('<span class="ans">' + questions[index].answers[j] + '</span>');
 				$('#answers').append($newAnswers);
+
 			}
-			// $('.current').on('click', function() {
-			// 	firstAnswer(this.getAttribute('answer-id'))
-			// })
-		}
+			$('.ans').on('click', function() {
+				console.log("answering");
+				console.log(this.innerHTML);
+				if(this.innerHTML === questions[index].correct) {
+					numCorrect++;
+				} else {
+					numIncorrect++;
+				}
+				
+				showQuestion();
+			});		
+		}	
 	
+
+	console.log(numCorrect);
 	//On start button click, hide start button, the first timer at 40 seconds decrementing by 1 second
 
 	$('#start').on('click', function () {
@@ -96,9 +106,9 @@ $(document).ready(function () {
 		runTimer();
 		stats();
 		beginQuiz();
-		showQuestion ();
+		showQuestion (0);
 		showAnswers ();
-	});
+	})
 
 });
 	
