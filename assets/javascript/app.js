@@ -72,12 +72,21 @@ $(document).ready(function () {
 			$('#questions').html($newQuestion);
 
 		}
+
+		//Add answers
+
 	
 		function showAnswers (index) {
-			var $newAnswers = $('<div>')
+			for (i = 0; i < questions[0].answers.length; i++) {
+			var $newAnswers = $('<div/>')
 				.addClass('answer col-sm-12')
-				.html('<button type="button" button class="btn btn-default">' + questions[0].answers + '</button>');
-			$('#answers').html($newAnswers);
+				.attr('answer-id', i)
+				.html('<span>' + questions[0].answers[i] + '</span>');
+				$('#answers').append($newAnswers);
+			}
+			// $('.current').on('click', function() {
+			// 	firstAnswer(this.getAttribute('answer-id'))
+			// })
 		}
 	
 	//On start button click, hide start button, the first timer at 40 seconds decrementing by 1 second
