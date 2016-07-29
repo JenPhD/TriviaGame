@@ -5,38 +5,30 @@ $(document).ready(function () {
 			quest: "Which important social theorist coined the phrase 'survival of the fittest'?",
 			answers: ["Charles Darwin", "Karl Marx", "Herbert Spencer", "Sigmund Freud", "Jane Addams"],
 			correct: "Herbert Spencer",
-			currentQuestion: false
-
 		},
 		{
 			quest: "Which sociologist used a study of suicide to show how every action, even a seemingly completely individualist act, can have social causes?",
 			answers: ["Emile Durkheim", "Karl Marx", "Max Weber", "Harriet Martineau", "Sigmund Freud"],
-			correct: "Emile Durkheim",
-			currentQuestion: false
+			correct: "Emile Durkheim",			
 		}
-
 	];
 
-	index = 0;
-	numCorrect = 0;
-	numIncorrect = 0;
-	unanswered = 0;
+	var current = 0;//This is the index of the current question which begins at zero.
+	var numCorrect = 0;//This is the count of the number of correct answers.
+	var numIncorrect = 0;//This is the count of the numberof incorrect answers.
+	var unanswered = 0;//This is the count of the number of questions unanswered when timer gets to zero.
+	var quizOver = false;//This is set to false, so when the quiz is over, I can reset the variables at the start of a new game.
 	
-	//Show the start button on page load or reload;
+
+
+//Show the start button on page load or reload;
 	window.onload = function () {
-		$("#start").html('<button type="button" button class="btn btn-danger">Start game!</button>');
+		$("#start").html('<button type="button" button class="btn btn-info">Start trivia game!</button>');
 	}
 
-	//reset game stats;
-	function stats () {
-		var index = 0;
-		var numCorrect = 0;
-		var numIncorrect = 0;
-		var unanswered = 0;
-		var timer;
-		}
-		
-		//set the timer to 40 seconds to answer questions
+//Game process. Trying now as an object.
+//First thing that needs to happen is that the start button is hidden and the timer starts for the first question.
+//Run timer. The timer should be run when the current question and associated answers appear.
 	function runTimer () {
 		var seconds = 40;
 		clearInterval (timer);
@@ -46,69 +38,54 @@ $(document).ready(function () {
 					clearInterval(timer);
 				}	
 		} , 1000);
+		//console.log("Please work");
 	}
 
-	function beginQuiz () {
+	function showQuestion () {
+		//Empty the previous question
 		$('#questions').empty();
-		for (i = 0; i < questions.length; i++) {
-			if(questions[i].currentQuestion === true) {
-				var $newQuiz = $('<div>')
-					.addClass = ('current col-sm-12')
-					.attr('quest-id', i)
-					.html(questions[i].quest);
-				$('#questions').append($newQuiz);			
-			} 
-			$('.current').on('click', function() {
-				beginQuiz(this.getAttribute('quest-id'))
-			})
-		}	
-	}
-
-		function showQuestion () {
-			var $newQuestion = $('<div>')
-				.addClass('question col-sm-12')
-				.html(questions[index].quest);
-			$('#questions').html($newQuestion);
-
+		var question = questions[current].quest;
+		//console.log(question);
+		var newQuestion = $('<div/>')
+			.html(question);
+			$('#questions').append(newQuestion);
 		}
 
-		//Add answers
-
-	
 		function showAnswers () {
-			for (j = 0; j < questions[index].answers.length; j++) {
-			var $newAnswers = $('<div/>')
+			for (i = 0; i < questions[current].answers.length; i++) {
+				var newAnswers = $('<div/>')
 				.addClass('answer col-sm-12')
-				.attr('answer-id', j)
-				.html('<span class="ans">' + questions[index].answers[j] + '</span>');
-				$('#answers').append($newAnswers);
-
-			}
-			$('.ans').on('click', function() {
+				.html('<span class="ans">' + questions[current].answers[i] + '</span>');
+				$('#answers').append(newAnswers);
+			}					
+		
+		//display the next question after clicking on an answer
+			$('.ans').on('click', function () {
 				console.log("answering");
 				console.log(this.innerHTML);
-				if(this.innerHTML === questions[index].correct) {
-					numCorrect++;
-				} else {
-					numIncorrect++;
-				}
-				
-				showQuestion();
-			});		
-		}	
-	
+				if(quizOver == false) {
+					if(this.innerHTML === questions[current].correct) {
+						numCorrect++;
+					} else {
+						numIncorrect++;
+					}
+				} //else() display grade
+				console.log(numCorrect);
+			});
+		}
+		console.log(numCorrect);
+		
 
-	console.log(numCorrect);
-	//On start button click, hide start button, the first timer at 40 seconds decrementing by 1 second
 
-	$('#start').on('click', function () {
+//Function calls. The game begins when the user clicks start. The start button is hidden. The first question appears.
+$('#start').on('click', function () {
 		$('#start').hide();
 		runTimer();
-		stats();
-		beginQuiz();
-		showQuestion (0);
-		showAnswers ();
-	})
+		//The first question should be displayed on click of the start button.	
+		showQuestion();
+		//The first set of answers should be displayed on click of the start button.
+		showAnswers();
+});//ends what happens when you click start.
 
-});
-	
+
+});//ending document ready.
