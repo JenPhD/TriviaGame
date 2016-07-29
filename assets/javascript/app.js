@@ -5,6 +5,7 @@ $(document).ready(function () {
 			quest: "Which important social theorist coined the phrase 'survival of the fittest'?",
 			answers: ["Charles Darwin", "Karl Marx", "Herbert Spencer", "Sigmund Freud", "Jane Addams"],
 			correct: "Herbert Spencer",
+			img: '<img src="assets/images/spencer.jpg" alt="Herbert Spencer"/>'
 		},
 		{
 			quest: "Which sociologist used a study of suicide to show how every action, even a seemingly completely individualist act, can have social causes?",
@@ -18,7 +19,7 @@ $(document).ready(function () {
 	var numIncorrect = 0;//This is the count of the numberof incorrect answers.
 	var unanswered = 0;//This is the count of the number of questions unanswered when timer gets to zero.
 	var quizOver = false;//This is set to false, so when the quiz is over, I can reset the variables at the start of a new game.
-	
+	var seconds = 40;
 
 
 //Show the start button on page load or reload;
@@ -29,8 +30,8 @@ $(document).ready(function () {
 //Game process. Trying now as an object.
 //First thing that needs to happen is that the start button is hidden and the timer starts for the first question.
 //Run timer. The timer should be run when the current question and associated answers appear.
-	function runTimer () {
-		var seconds = 40;
+	
+	function runTimer () {		
 		clearInterval (timer);
 		timer = setInterval(function () {
 			$('#timer').html('Timer: ' + seconds--);
@@ -61,16 +62,35 @@ $(document).ready(function () {
 		
 		//display the next question after clicking on an answer
 			$('.ans').on('click', function () {
-				console.log("answering");
-				console.log(this.innerHTML);
+				//after clicking on the answer, reset the timer and hide it.
+				seconds = 40;
+				$('#timer').hide();
 				if(quizOver == false) {
 					if(this.innerHTML === questions[current].correct) {
 						numCorrect++;
+						//After getting a correct answer, hide the question and answers.
+						$('#questions').hide();
+						$('#answers').hide();
+						//display a page with a gif or image
+						$('#check').append('<b>Correct!</b>');
+						$('#check').show();
+						$('#image').append(questions[current].img);
+						$('#image').show();
 					} else {
 						numIncorrect++;
+						//hide the question and answers.
+						$('#questions').hide();
+						$('#answers').hide();
+						//display a page with a gif or image
+						$('#check').append('<b>Nope! The correct answer is: </b>' + questions[current].correct);
+						$('#check').show();
+						$('#image').append(questions[current].img);
+						$('#image').show();
 					}
 				} //else() display grade
 				console.log(numCorrect);
+				//After clicking on an answer and seeing whether it is correct or not. 
+				//
 			});
 		}
 		console.log(numCorrect);
