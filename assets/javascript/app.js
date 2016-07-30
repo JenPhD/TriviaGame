@@ -38,7 +38,6 @@ $(document).ready(function () {
 	var numCorrect = 0;//This is the count of the number of correct answers.
 	var numIncorrect = 0;//This is the count of the numberof incorrect answers.
 	var unanswered = 0;//This is the count of the number of questions unanswered when timer gets to zero.
-	var timeOver=false;//This is set to false, so when the quiz is over, I can reset the variables at the start of a new game.
 	var seconds = 20;
 
 
@@ -145,30 +144,24 @@ $(document).ready(function () {
 				$('#right').html('Incorrect: ' + numIncorrect);
 				$('#noAnswer').html('Unanswered: ' + unanswered);
 				
-				setTimeout(reset, 5000);
-
-					//reset game.
-					//function reset () {
-						//$('#start').show();
-							// $('#start').on('click', function () {
-							// 	$('#grade').hide ();
-							// 	$('#wrong').hide();
-							// 	$('#right').hide();
-							// 	$('#noAnswer').hide();
-							// 	$('#questions').show ();
-							// 	$('#answers').show();
-							// 	var current = 0;
-							// 	var numCorrect = 0;
-							// 	var numIncorrect = 0;
-							// 	var unanswered = 0;
-							// 	showQuestion();
-							// });
-					//}				
+				setTimeout(reset, 5000);				
 				
-			}	
-			
+			}			
 			
 		}
+
+		//reset game.
+					function reset () {
+						$('#start').show();
+						$('#grade').hide ();
+						$('#wrong').hide();
+						$('#right').hide();
+						$('#noAnswer').hide();
+						current = 0;
+						numCorrect = 0;
+						numIncorrect = 0;
+						unanswered = 0;				
+					}		
 
 		
 			
