@@ -21,7 +21,7 @@ $(document).ready(function () {
 			img: '<img src="assets/images/marx.gif" alt="Karl Marx"/>'
 		},
 		{
-			quest: "Which sociologist wrote <b>Fighting Words</b>, arguing that the knowledge of 'outsiders within' is essential to understanding the power relations that makeup the matrix of domination?",
+			quest: "Which sociologist wrote <i>Fighting Words</i>, arguing that the knowledge of 'outsiders within' is essential to understanding the power relations that makeup the matrix of domination?",
 			answers: ["W.E.B. DuBois", "Karl Marx", "bell hooks", "Patricia Hill Collins", "Eduardo Bonilla Silva"],
 			correct: "Patricia Hill Collins",
 			img: '<img src="assets/images/collins.jpg" alt="Patricia Hill Collins"/>'
@@ -42,26 +42,27 @@ $(document).ready(function () {
 	var seconds = 20;
 
 
-//Show the start button on page load or reload;
+	//Show the start button on page load or reload;
 	window.onload = function () {
 		$("#start").html('<button type="button" button class="btn btn-info">Start trivia game!</button>');
 	}
 
-//Game process.
-//First thing that needs to happen is that the start button is hidden and the timer starts for the first question.
-//Run timer. The timer should be run when the current question and associated answers appear.
+	//Game process.
+	//First thing that needs to happen is that the start button is hidden and the timer starts for the first question.
+	//Run timer. The timer should be run when the current question and associated answers appear.
 	
 	function runTimer () {		
 			clearInterval (timer);
 			seconds = 20;
 			timer = setInterval(function () {
 				$('#timer').html('Timer: ' + seconds--);
+				$('#timer').show();
 				if (seconds === -1) {
 					clearInterval(timer);
 				}	
 			} , 1000);
 		//console.log("Please work");
-		}
+	}
 		
 		function showQuestion () {
 			$('#check').hide();
@@ -120,39 +121,57 @@ $(document).ready(function () {
 				setTimeout(showQuestion, 5000);
 				});	
 			}
+
+			else if (timer === 0) {		
+				$('#question').hide();
+				$('#answers').hide();
+				unanswered++;				
+				$('#check').html('The correct answer is: </b>' + questions[current].correct);
+				current++;
+				setTimeout(showQuestion, 5000);	
+			} 
+				
+
 			else {
 				$('#questions').hide();
 				$('#answers').hide();
 				$('#check').hide();
 				$('#image').hide();
-				$('#top').html('Correct: ' + numCorrect);
-				$('#middle').html('Incorrect: ' + numIncorrect);
-				$('#bottom').html('Unanswered: ' + unanswered);
-			}		
+				$('#grade').show();
+				$('#wrong').html('Correct: ' + numCorrect);
+				$('#right').html('Incorrect: ' + numIncorrect);
+				$('#noAnswer').html('Unanswered: ' + unanswered);
+				
+				setTimeout(reset, 5000);
+
+					//reset game.
+					function reset () {
+						$('#start').show();
+							// $('#start').on('click', function () {
+							// 	$('#grade').hide ();
+							// 	$('#wrong').hide();
+							// 	$('#right').hide();
+							// 	$('#noAnswer').hide();
+							// 	$('#questions').show ();
+							// 	$('#answers').show();
+							// 	var current = 0;
+							// 	var numCorrect = 0;
+							// 	var numIncorrect = 0;
+							// 	var unanswered = 0;
+							// 	showQuestion();
+							// });
+					}				
+				
+			}	
 		}
-		// function timeOut () {
-		// 	if (seconds === -1) {		
-		// 		$('#question').hide();
-		// 		$('#answers').hide();
-		// 		unanswered++;				
-		// 		$('#check').html('The correct answer is: </b>' + questions[current].correct);	
-		// 	} 
-		// 	setTimeout(showQuestion, 5000);
-		// 	setTimeout(showAnswers, 5000)
-		// 	current++;
-		// }
 
-		// console.log(numCorrect);
-	
-		
-
-
-	//Function calls. The game begins when the user clicks start. The start button is hidden. The first question appears.
+	//start game with click on the start button	
 	$('#start').on('click', function () {
-		$('#start').hide();
+		$('#start').hide();	
 		//Start with the first question.	
-		showQuestion(0);
-	});//ends what happens when you click start.
-
+		showQuestion();
+	});//ends what happens when you click start
+	
+	
 
 });//ending document ready.
