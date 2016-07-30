@@ -57,9 +57,17 @@ $(document).ready(function () {
 			timer = setInterval(function () {
 				$('#timer').html('Timer: ' + seconds--);
 				$('#timer').show();
-				if (seconds === -1) {
+				if (seconds === -1) {		
+					console.log("inside" + seconds);
+					$('#question').hide();
+					$('#answers').hide();
+					unanswered++;				
+					$('#check').html('The correct answer is: </b>' + questions[current].correct);
+					current++;
 					clearInterval(timer);
-				}	
+					setTimeout(showQuestion, 5000);
+			} 
+
 			} , 1000);
 		//console.log("Please work");
 	}
@@ -122,16 +130,6 @@ $(document).ready(function () {
 				});	
 			}
 
-			else if (timer === 0) {		
-				$('#question').hide();
-				$('#answers').hide();
-				unanswered++;				
-				$('#check').html('The correct answer is: </b>' + questions[current].correct);
-				current++;
-				setTimeout(showQuestion, 5000);	
-			} 
-				
-
 			else {
 				$('#questions').hide();
 				$('#answers').hide();
@@ -145,8 +143,8 @@ $(document).ready(function () {
 				setTimeout(reset, 5000);
 
 					//reset game.
-					function reset () {
-						$('#start').show();
+					//function reset () {
+						//$('#start').show();
 							// $('#start').on('click', function () {
 							// 	$('#grade').hide ();
 							// 	$('#wrong').hide();
@@ -160,9 +158,11 @@ $(document).ready(function () {
 							// 	var unanswered = 0;
 							// 	showQuestion();
 							// });
-					}				
+					//}				
 				
 			}	
+			
+			
 		}
 
 	//start game with click on the start button	
