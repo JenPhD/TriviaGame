@@ -38,7 +38,7 @@ $(document).ready(function () {
 	var numCorrect = 0;//This is the count of the number of correct answers.
 	var numIncorrect = 0;//This is the count of the numberof incorrect answers.
 	var unanswered = 0;//This is the count of the number of questions unanswered when timer gets to zero.
-	var quizOver = false;//This is set to false, so when the quiz is over, I can reset the variables at the start of a new game.
+	var timeOver=false;//This is set to false, so when the quiz is over, I can reset the variables at the start of a new game.
 	var seconds = 20;
 
 
@@ -59,10 +59,13 @@ $(document).ready(function () {
 				$('#timer').show();
 				if (seconds === -1) {		
 					console.log("inside" + seconds);
-					$('#question').hide();
+					$('#questions').hide();
 					$('#answers').hide();
 					unanswered++;				
 					$('#check').html('The correct answer is: </b>' + questions[current].correct);
+					$('#image').html(questions[current].img);
+					$('#check').show();
+					$('#image').show();
 					current++;
 					clearInterval(timer);
 					setTimeout(showQuestion, 5000);
@@ -70,6 +73,7 @@ $(document).ready(function () {
 
 			} , 1000);
 		//console.log("Please work");
+		
 	}
 		
 		function showQuestion () {
@@ -80,6 +84,7 @@ $(document).ready(function () {
 				runTimer();
 				$('#questions').html(questions[current].quest);
 				$('#questions').show();
+				
 			
 				function showAnswers () {
 					$('#answers').empty();
@@ -164,6 +169,11 @@ $(document).ready(function () {
 			
 			
 		}
+
+		
+			
+			
+
 
 	//start game with click on the start button	
 	$('#start').on('click', function () {
