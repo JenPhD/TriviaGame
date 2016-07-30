@@ -12,6 +12,25 @@ $(document).ready(function () {
 			answers: ["Emile Durkheim", "Karl Marx", "Max Weber", "Harriet Martineau", "Sigmund Freud"],
 			correct: "Emile Durkheim",	
 			img: '<img src="assets/images/durkheim.gif" alt="Emile Durkheim"/>'		
+		},
+
+		{
+			quest: "Which sociologist once wrote: 'Religion is the opiate of the masses?'",
+			answers: ["Karl Marx", "Max Weber", "Antonio Gramsci", "Auguste Comte", "W.E.B. DuBois"],
+			correct: "Karl Marx",
+			img: '<img src="assets/images/marx.gif" alt="Karl Marx"/>'
+		},
+		{
+			quest: "Which sociologist wrote <b>Fighting Words</b>, arguing that the knowledge of 'outsiders within' is essential to understanding the power relations that makeup the matrix of domination?",
+			answers: ["W.E.B. DuBois", "Karl Marx", "bell hooks", "Patricia Hill Collins", "Eduardo Bonilla Silva"],
+			correct: "Patricia Hill Collins",
+			img: '<img src="assets/images/collins.jpg" alt="Patricia Hill Collins"/>'
+		},
+		{
+			quest: "Which sociologist coined the term 'culutral hegemony', arguing that one way that dominant groups retain their power is through the manipulation of ideas, beliefs, and pop culture?",
+			answers: ["bell hooks", "Max Weber", "Karl Marx", "Eduardo Bonilla Silva", "Antonio Gramsci"],
+			correct: "Antonio Gramsci",
+			img: '<img src="assets/images/gramsci.jpg" alt="Antonio Gramsci"/>'
 		}
 	];
 
@@ -31,7 +50,8 @@ $(document).ready(function () {
 //Game process.
 //First thing that needs to happen is that the start button is hidden and the timer starts for the first question.
 //Run timer. The timer should be run when the current question and associated answers appear.
-		function runTimer () {		
+	
+	function runTimer () {		
 			clearInterval (timer);
 			seconds = 20;
 			timer = setInterval(function () {
@@ -43,33 +63,30 @@ $(document).ready(function () {
 		//console.log("Please work");
 		}
 		
-
 		function showQuestion () {
 			$('#check').hide();
 			$('#image').hide();
 			if (current < questions.length) {
-			//run timer
-			runTimer();
-			$('#questions').html(questions[current].quest);
-			$('#questions').show();
-			}	
+				//run timer
+				runTimer();
+				$('#questions').html(questions[current].quest);
+				$('#questions').show();
+			
+				function showAnswers () {
+					$('#answers').empty();
+					for (i = 0; i < questions[current].answers.length; i++) {
+						var newAnswers = $('<div/>')
+						.addClass('answer col-sm-12')
+						$(newAnswers).html('<span class="ans">' + questions[current].answers[i] + '</span>');
+						$('#answers').append(newAnswers);
+						$('#answers').show();
+					}	
+				}
+				showAnswers();
 
 		
 
-			function showAnswers () {
-				$('#answers').empty();
-				for (i = 0; i < questions[current].answers.length; i++) {
-					var newAnswers = $('<div/>')
-					.addClass('answer col-sm-12')
-					$(newAnswers).html('<span class="ans">' + questions[current].answers[i] + '</span>');
-					$('#answers').append(newAnswers);
-					$('#answers').show();
-				}	
-			}
-			showAnswers();
-		
-		
-			//display the next question after clicking on an answer
+				//display the next question after clicking on an answer
 				$('.ans').on('click', function () {
 					//after clicking on the answer, hide the timer.
 					clearInterval(timer);
@@ -84,8 +101,7 @@ $(document).ready(function () {
 						$('#image').html(questions[current].img);
 						$('#check').show();
 						$('#image').show();
-						current++;
-						// setTimeout(showQuestion, 5000);			
+						current++;			
 						  
 					} else {
 						numIncorrect++;
@@ -103,23 +119,17 @@ $(document).ready(function () {
 					//After clicking on an answer and seeing whether it is correct or not. 
 				setTimeout(showQuestion, 5000);
 				});	
+			}
+			else {
+				$('#questions').hide();
+				$('#answers').hide();
+				$('#check').hide();
+				$('#image').hide();
+				$('#top').html('Correct: ' + numCorrect);
+				$('#middle').html('Incorrect: ' + numIncorrect);
+				$('#bottom').html('Unanswered: ' + unanswered);
+			}		
 		}
-		
-		// function checkCorrect () {
-		// 	$('#check').html('<b>Correct!</b>');
-		// 	$('#image').html(questions[current].img);
-		// 	setTimeout(showQuestion, 5000);
-		// }
-
-		// function checkIncorrect () {
-		// 	$('#check').html('<b>Nope! The correct answer is: </b>' + questions[current].correct);
-		// 	$('#image').html(questions[current].img);
-		// 	setTimeout(showQuestion, 5000);	
-		// }
-
-		
-
-
 		// function timeOut () {
 		// 	if (seconds === -1) {		
 		// 		$('#question').hide();
@@ -140,10 +150,8 @@ $(document).ready(function () {
 	//Function calls. The game begins when the user clicks start. The start button is hidden. The first question appears.
 	$('#start').on('click', function () {
 		$('#start').hide();
-		//The first question should be displayed on click of the start button.	
-		showQuestion();
-		//The first set of answers should be displayed on click of the start button.
-		//showAnswers();
+		//Start with the first question.	
+		showQuestion(0);
 	});//ends what happens when you click start.
 
 
